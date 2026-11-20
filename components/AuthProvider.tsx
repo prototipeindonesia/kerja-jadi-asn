@@ -16,8 +16,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return onAuthStateChanged(auth, async (u) => {
       setUser(u);
       if (u) {
-        const token = await u.getIdTokenResult();
-        setAdmin(token.claims.admin === true);
+        try {
+          // Tanya langsung ke server apakah UID ini punya akses admin
+          const token = await u.getIdToken();
+          const res = await fetch("/api/auth/session/me", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          setAdmin(data.admin === true);
+        } catch (err) {
+          setAdmin(false);
+        }
       } else {
         setAdmin(false);
       }
