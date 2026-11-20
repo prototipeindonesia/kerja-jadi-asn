@@ -9,14 +9,16 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: "#eff6ff",
-          100: "#dbeafe",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
-          900: "#1e3a8a",
+          blue: "#2563eb",       // Biru Utama
+          darkblue: "#1e3a8a",   // Biru Gelap
+          orange: "#f97316",     // Orange Utama
+          lightorange: "#ffedd5" // Orange Muda
         },
       },
+      backgroundImage: {
+        'gradient-milenial': 'linear-gradient(135deg, #2563eb 0%, #f97316 100%)',
+        'gradient-soft': 'linear-gradient(to right, #eff6ff, #fff7ed)',
+      }
     },
   },
   plugins: [],
