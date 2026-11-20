@@ -1,9 +1,19 @@
-import { NextRequest, NextResponse } from "next/server";
-import { requireUser, syncUserDoc, unauthorized } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { adminAuth } from "@/lib/firebaseAdmin";
 
-export async function POST(req: NextRequest) {
-  const user = await requireUser(req);
-  if (!user) return unauthorized();
-  await syncUserDoc(user.uid, user.email);
-  return NextResponse.json({ ok: true });
+export async function GET() {
+  try {
+    const uid = "aNwc6iGkfSbM06kh8SQSbCduLeG3"; // UID Anda
+    await adminAuth.setCustomUserClaims(uid, { admin: true });
+    
+    return NextResponse.json({ 
+      success: true, 
+      message: "Mantap! Anda sekarang Admin." 
+    });
+  } catch (error: any) {
+    return NextResponse.json({ 
+      success: false, 
+      error: error.message 
+    }, { status: 500 });
+  }
 }
