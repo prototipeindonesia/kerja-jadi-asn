@@ -18,7 +18,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (u) {
         try {
           // Tanya langsung ke server apakah UID ini punya akses admin
-          const token = await u.getIdToken();
+          const token = await u.getIdToken(true);
           const res = await fetch("/api/auth/session/me", {
             headers: { Authorization: `Bearer ${token}` },
           });
