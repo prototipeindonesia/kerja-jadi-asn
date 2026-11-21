@@ -16,7 +16,9 @@ export default function Navbar() {
         </Link>
         <nav className="flex items-center gap-6 text-sm font-medium">
           <Link href="/dashboard" className="text-slate-600 hover:text-brand-blue transition">Dashboard</Link>
-          {admin && (
+          // Di bawah <Link href="/dashboard">, tambahkan:
+<Link href="/paket" className="text-slate-600 hover:text-brand-blue transition">Paket Ujian</Link>
+            {admin && (
             <Link href="/admin" className="text-brand-orange hover:text-orange-600 transition font-bold">
               Admin
             </Link>
