@@ -44,9 +44,23 @@ export default function UjianPage() {
     return `${m}:${s}`;
   };
 
-  const handleSelect = (optIdx: number) => {
-    setAnswers({ ...answers, [questions[currentIdx].id]: optIdx });
-  };
+  const handleSelect = async (optIdx: number) => {
+  const qId = questions[currentIdx].id;
+  // 1. Update tampilan langsung (biar terasa cepat)
+  setAnswers((prev) => ({ ...prev, [qId]: optIdx }));
+
+  // 2. Simpan ke database secara diam-diam (background)
+  try {
+    const token = await auth.currentUser?.getIdToken();
+    await fetch("/api/attempts/save-answer", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ attemptId, questionId: qId, answerIndex: optIdx }),
+    });
+  } catch (err) {
+    console.error("Gagal auto-save", err);
+  }
+};
 
   const toggleFlag = () => {
     const qid = questions[currentIdx].id;
